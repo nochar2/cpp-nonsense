@@ -1,0 +1,37 @@
+# Brackets
+
+gcc/g++/the c standard (?) has a very peculiar set of valid characters
+in identifiers.
+
+The following characters in "valid:" fields compile with g++ -Wall -Wextra -std=c++20 what.c.
+Adding -Wpedantic rejects them with an error, clang++ and clangd reject them outright.
+
+TODO: Link to the addendum. I'm curious who decides these ranges...
+
+```
+uni search -a json parenthesis | jq "map (.char)" | sed "s/\",\?//g" | fmt
+[
+  ( ) ◌᫁ ◌᫂ ◌᫃ ◌᫄ ⁽ ⁾ ₍ ₎ ⎛ ⎜ ⎝ ⎞ ⎟
+  ⎠ ⏜ ⏝ ❨ ❩ ❪ ❫ ⟮ ⟯ ⦅ ⦆ ⸨ ⸩ ⹙ ⹚ ⹛ ⹜
+  ﴾ ﴿ ︵ ︶ ﹙ ﹚ （ ） ｟ ｠ 𝅖 𝪋 ␣ ␣
+]
+invalid: ⎛ ⎞ ⏜ ⏝ ❨ ❩ ❪ ❫ ⟮ ⟯ ⦅ ⦆ ⸨ ⸩ 
+valid:   ﴾ ﴿ ︵ ︶ ﹙ ﹚｟ ｠（ ）
+```
+
+```
+uni search -a json bracket | jq "map (.char)" | sed "s/\",\?//g" | fmt
+[
+  [ ] { } ◌᫅ ⁅ ⁆ 〈 〉 ⎡ ⎢ ⎣ ⎤ ⎥ ⎦ ⎧ ⎨ ⎩
+  ⎪ ⎫ ⎬ ⎭ ⎰ ⎱ ⎴ ⎵ ⎶ ⏞ ⏟ ⏠ ⏡ ❬ ❭ ❰ ❱
+  ❲ ❳ ❴ ❵ ⟦ ⟧ ⟨ ⟩ ⟪ ⟫ ⟬ ⟭ ⦃ ⦄ ⦇ ⦈ ⦉
+  ⦊ ⦋ ⦌ ⦍ ⦎ ⦏ ⦐ ⦑ ⦒ ⦓ ⦔ ⦕ ⦖ ⦗ ⦘ ⧼ ⧽
+  ⸂ ⸃ ⸄ ⸅ ⸉ ⸊ ⸌ ⸍ ⸜ ⸝ ⸢ ⸣ ⸤ ⸥ ⸦ ⸧ ⹕
+  ⹖ ⹗ ⹘ 〈 〉 《 》 「 」 『 』 【 】 〔 〕 〖 〗
+  〘 〙 〚 〛 ︗ ︘ ︷ ︸ ︹ ︺ ︻ ︼ ︽ ︾ ︿ ﹀ ﹁
+  ﹂ ﹃ ﹄ ﹇ ﹈ ﹛ ﹜ ﹝ ﹞ ［ ］ ｛ ｝ ｢ ｣ 𝄕 🄪
+  🉀 🉁 🉂 🉃 🉄 🉅 🉆 🉇 🉈 🯌 ␣ ␣ ␣ ␣
+]
+invalid: ⁅ ⁆ ⟬ ⟭ 【 】⦃ ⦄ 〈 〉❰ ❱ ⧼ ⧽
+valid:   ｢ ｣ ｛ ｝︗ ︘
+```
